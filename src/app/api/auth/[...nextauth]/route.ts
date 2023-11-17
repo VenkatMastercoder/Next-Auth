@@ -1,14 +1,15 @@
 import NextAuth from "next-auth/next";
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { users } from '../../../../helper/constants';
 
-export const authOption = {
+const authOption:NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'HI',
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password", placeholder: "jsmith" }
+        username: { label: "username", type: "text", placeholder: "jsmith" },
+        password: { label: "password", type: "password", placeholder: "jsmith" }
       },
       async authorize(credentials, req) {
 
@@ -25,9 +26,24 @@ export const authOption = {
         else {
           return null
         }
+
+        // const {username, password} = credentials
+        //   const res = await fetch("https://gomonetize-backend.onrender.com/api/v1/auth/login", {
+        //     method: 'POST',
+        //     body: JSON.stringify(credentials),
+        //     headers: { "Content-Type": "application/json" }
+        //   })
+        //   const user = await res.json()
+
+        //   // // If no error and we have user data, return it
+        //   if ( user) {
+        //     return user
+        //   }
+        //   // // Return null if user data could not be retrieved
+        //   return null
       }
     })],
-  secret: process.env.NEXTAUTH_URL
+  secret: process.env.NEXTAUTH_SECRET
 }
 
 const hander = NextAuth(authOption);
